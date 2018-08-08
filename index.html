@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Simple Rock-Paper-Scissors</title>
+</head>
+
+<body>
+    <div id='container'>
+        <button id='rock'>Rock</button>
+        <button id='paper'>Paper</button>
+        <button id='scissors'>Scissors</button>
+    </div>
+    <div id='results'>
+
+    </div>
+</body>
+
+</html>
+
+<script>
+    function computerPlay() {
+        let rand = options[Math.floor(Math.random() * options.length)];
+        return rand
+    }
+
+    function playRound(playerSelection, computerSelection) {
+        switch (playerSelection) {
+            case 'rock': 
+                if (computerSelection == 'rock') {
+                    return 'tie'
+                } else if (computerSelection == 'paper') {
+                    return 'lose'
+                } else {
+                    return 'win'
+                }
+            case 'paper': 
+                if (computerSelection == 'rock') {
+                        return 'win'
+                    } else if (computerSelection == 'paper') {
+                        return 'tie'
+                    } else {
+                        return 'lose'
+                    }
+            case 'scissors': 
+                if (computerSelection == 'rock') {
+                        return 'lose'
+                    } else if (computerSelection == 'paper') {
+                        return 'win'
+                    } else {
+                        return 'tie'
+                    }
+        }
+    }
+
+    /*function game(amountOfGames) { 
+        for (i = 0; i < (amountOfGames); i++) {
+            let playerSelection = prompt("Please enter your choice");
+
+            if (playerSelection != null) {
+                if (options.includes(playerSelection.toLowerCase())) {
+                    playerSelectionLower = playerSelection.toLowerCase();
+                    let computerSelection = computerPlay();
+
+                    console.log("Game number: " + (i+1))
+                    console.log("The player's choice: " + playerSelection)
+                    console.log("The computer's choice: " + computerSelection)
+                    console.log(playRound(playerSelection, computerSelection))
+                } else {
+                    alert("Please enter a valid option");
+                    i--;
+                }
+            } else {
+                alert("Please enter something");
+                i--;
+            }
+        }
+    }
+
+    function play() {
+        do {
+            var selection = parseInt(window.prompt("Please enter a number from 1 to 100", ""), 10);
+        } while(isNaN(selection) || selection > 100 || selection < 1);
+        
+        if (typeof selection == 'number') {
+            game(selection);
+        } else { 
+            alert('Please enter a number!')
+        }
+    }*/
+
+    function play() {
+        let playerSelection = prompt("Please enter your choice");
+
+        if (playerSelection != null) {
+            if (options.includes(playerSelection.toLowerCase())) {
+                playerSelectionLower = playerSelection.toLowerCase();
+                let computerSelection = computerPlay();
+
+                console.log("The player's choice: " + playerSelection)
+                console.log("The computer's choice: " + computerSelection)
+                console.log(playRound(playerSelection, computerSelection))
+            } else {
+                alert("Please enter a valid option");
+            }
+        } else {
+            alert("Please enter something");
+        }
+    }
+
+    let options= ['rock', 'paper', 'scissors'];
+    let score = 0;
+
+    // create a variable that consists of all buttons
+    const buttons = document.querySelectorAll('button');
+
+    buttons.forEach((button) => {
+
+    // and for each one we add a 'click' listener
+    button.addEventListener('click', (e) => {
+            let computerSelection = computerPlay();
+
+            console.log("Your choice: " + button.id);
+            console.log("The computer's choice: " + computerSelection);
+            console.log(playRound(button.id, computerSelection));
+
+            let resultOfMatch = playRound(button.id, computerSelection);
+            
+            const div = document.querySelector('#results');
+            if (score === 5 || score === -5) {
+                const result = document.createElement('h1');
+
+                if (score >= 5) {
+                    result.textContent = "The player wins";
+                } else if (score <= -5) {
+                    result.textContent = "The computer wins";
+                }
+
+                div.appendChild(result);
+            }
+ 
+            if (resultOfMatch === 'win') {
+                score = score + 1;
+            } else if (resultOfMatch === 'lose') {
+                score = score - 1;
+            }
+
+            const scoreDisplay = document.createElement('h2');
+            scoreDisplay.textContent = score;
+            div.appendChild(scoreDisplay);
+        });
+    });
+</script>
